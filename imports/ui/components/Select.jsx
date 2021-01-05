@@ -11,6 +11,10 @@ const Select = () => {
   // state to save peoples in selected event.
   const [peopleNow, setPeopleNow] = useState([]);
 
+  // state to set how many peoples are checked-in.
+  const [peopleChekedIn, setPeopleCheckedIn] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(-1);
+
   //-----------------------------------------------------------------------
 
   useEffect(() => {
@@ -30,6 +34,8 @@ const Select = () => {
     );
 
     setPeopleNow(pplInEvent);
+    setPeopleCheckedIn(0);
+    setIsDisabled(-1)
   }, [selectedEvent]);
 
   //-----------------------------------------------------------------------
@@ -38,6 +44,16 @@ const Select = () => {
   const selectEvent = e => {
     setSelectedEvent(e.target.value);
   };
+
+  const checkIn = index => {
+    setPeopleCheckedIn(peopleChekedIn + 1);
+    setIsDisabled(index);
+  };
+
+  // const checkoutFunc = () => {
+  //   setPeopleCheckedIn(peopleChekedIn - 1);
+  //   setCheckout(false);
+  // };
 
   if (!events) {
     return <p>loading...</p>;
@@ -54,15 +70,25 @@ const Select = () => {
         ))}
       </select>
       <h1>{selectedEvent}</h1>
+      {selectedEvent && (
+        <div>
+          <h4> People in the event right now: {peopleChekedIn}</h4>
+          <h4> People not checked-in: </h4>
+        </div>
+      )}
       <div>
-        {peopleNow.map(people => (
+        {peopleNow.map((people, index) => (
           <div key={people._id}>
+            <p>{index}</p>
             <p>
               {people.firstName} {people.lastName}
               {people.companyName && ` - ${people.companyName}`}
               {people.title && ` - ${people.title}`}
             </p>
-            <button>
+            <button
+              disabled={isDisabled === index}
+              onClick={() => checkIn(index)}
+            >
               Check-in {people.firstName} {people.lastName}
             </button>
           </div>
