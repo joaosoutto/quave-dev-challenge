@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
 import { methodCall } from '../../helpers/methodCall';
+import { AppContext } from '../context/AppContext';
+
+import CheckBtn from './CheckBtn';
+import PeopleByCompany from './PeopleByCompany';
 
 const Select = () => {
   // state to save the events from db.
@@ -11,9 +16,16 @@ const Select = () => {
   // state to save peoples in selected event.
   const [peopleNow, setPeopleNow] = useState([]);
 
-  // state to set how many peoples are checked-in.
-  const [peopleChekedIn, setPeopleCheckedIn] = useState(0);
-  const [isDisabled, setIsDisabled] = useState(-1);
+  // const [companiesNow, setCompaniesNow] = useState([]);
+
+  const {
+    peopleCheckedIn,
+    setPeopleCheckedIn,
+    peopleCheckedOut,
+    setPeopleCheckedOut,
+    companiesNow,
+    setCompaniesNow,
+  } = useContext(AppContext);
 
   //-----------------------------------------------------------------------
 
@@ -27,33 +39,35 @@ const Select = () => {
     });
   }, []);
 
+  //-----------------------------------------------------------------------
+
   useEffect(() => {
     const eventNow = events.filter(event => event.name === selectedEvent);
+
     const pplInEvent = peoples.filter(
       people => people.communityId === eventNow[0]._id
     );
 
+    const companies = pplInEvent
+      .filter(
+        (people, index, self) =>
+          index === self.findIndex(p => p.companyName === people.companyName)
+      )
+      .filter(people => people.companyName !== undefined)
+      .map((people, index) => people.companyName);
+
+    setCompaniesNow(companies);
     setPeopleNow(pplInEvent);
     setPeopleCheckedIn(0);
-    setIsDisabled(-1)
+
+    setPeopleCheckedOut(pplInEvent.length);
   }, [selectedEvent]);
 
   //-----------------------------------------------------------------------
 
-  // function to save some event on the change of select input.
   const selectEvent = e => {
     setSelectedEvent(e.target.value);
   };
-
-  const checkIn = index => {
-    setPeopleCheckedIn(peopleChekedIn + 1);
-    setIsDisabled(index);
-  };
-
-  // const checkoutFunc = () => {
-  //   setPeopleCheckedIn(peopleChekedIn - 1);
-  //   setCheckout(false);
-  // };
 
   if (!events) {
     return <p>loading...</p>;
@@ -62,9 +76,7 @@ const Select = () => {
   return (
     <div>
       <select onChange={selectEvent}>
-        <option key="default" value="default">
-          Select an event
-        </option>
+        <option key="default">Select an event</option>
         {events.map(event => (
           <option key={event._id}>{event.name}</option>
         ))}
@@ -72,27 +84,44 @@ const Select = () => {
       <h1>{selectedEvent}</h1>
       {selectedEvent && (
         <div>
-          <h4> People in the event right now: {peopleChekedIn}</h4>
-          <h4> People not checked-in: </h4>
+          <h4> People in the event right now: {peopleCheckedIn}</h4>
+          <h4> People by company in the event right now:</h4>
+          <ul>
+            {companiesNow.map((company, index) => {
+              if (index < 10) {
+                return (
+                  <li key={company}>
+                    {company}: <PeopleByCompany />
+                  </li>
+                );
+              }
+            })}
+          </ul>
+
+          <h4> People not checked-in: {peopleCheckedOut}</h4>
         </div>
       )}
       <div>
-        {peopleNow.map((people, index) => (
-          <div key={people._id}>
-            <p>{index}</p>
-            <p>
-              {people.firstName} {people.lastName}
-              {people.companyName && ` - ${people.companyName}`}
-              {people.title && ` - ${people.title}`}
-            </p>
-            <button
-              disabled={isDisabled === index}
-              onClick={() => checkIn(index)}
-            >
-              Check-in {people.firstName} {people.lastName}
-            </button>
-          </div>
-        ))}
+        {peopleNow
+          .filter(people => people.companyName !== undefined)
+          .map((people, index) => {
+            if (index < 100) {
+              return (
+                <div key={people._id}>
+                  <p>
+                    {people.companyName &&
+                      `${people.firstName} ${people.lastName} - ${people.companyName} - ${people.title}`}
+                  </p>
+                  <CheckBtn
+                    people={people}
+                    index={index}
+                    companies={companiesNow}
+                    peoples={peopleNow}
+                  />
+                </div>
+              );
+            }
+          })}
       </div>
     </div>
   );
