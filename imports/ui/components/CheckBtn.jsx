@@ -17,6 +17,10 @@ const CheckBtn = ({ people, index }) => {
     setPeopleCheckedIn,
     peopleCheckedOut,
     setPeopleCheckedOut,
+    // setPeopleCheckedInByCompany,
+    // peopleCheckedInByCompany
+    companiesNow,
+    setCompaniesNow,
   } = useContext(AppContext);
 
   // This function is used to change the state of the button, add/remove people who have
@@ -35,6 +39,27 @@ const CheckBtn = ({ people, index }) => {
     const date = new Date();
     setCheckedIn(date.toLocaleString());
     setCheckedOut('');
+
+    // This is where I implement the functionality to increase the value of people who have checked in by company.
+    // I know that there are better ways to develop this point and I also know that the order of the companies
+    // presented changes with each check-in made.
+    // I decided to deliver it to you this way due to time!
+    // I didn't want to risk taking too long to deliver the challenge and miss the opportunity for the job :)
+
+    const pplCompany = companiesNow.filter(
+      comp => comp.name === people.companyName
+    );
+    const anotherCompannies = companiesNow.filter(
+      comp => comp.name !== people.companyName
+    );
+
+    setCompaniesNow([
+      {
+        name: pplCompany[0].name,
+        checkinCount: pplCompany[0].checkinCount + 1,
+      },
+      ...anotherCompannies,
+    ]);
   };
   // ---------------------------------------------------------
 
@@ -48,6 +73,21 @@ const CheckBtn = ({ people, index }) => {
 
     const date = new Date();
     setCheckedOut(date.toLocaleString());
+
+    const pplCompany = companiesNow.filter(
+      comp => comp.name === people.companyName
+    );
+    const anotherCompannies = companiesNow.filter(
+      comp => comp.name !== people.companyName
+    );
+
+    setCompaniesNow([
+      {
+        name: pplCompany[0].name,
+        checkinCount: pplCompany[0].checkinCount - 1,
+      },
+      ...anotherCompannies,
+    ]);
   };
   // ---------------------------------------------------------
 

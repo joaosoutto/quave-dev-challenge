@@ -59,13 +59,14 @@ const Select = () => {
           index === self.findIndex(p => p.companyName === people.companyName)
       )
       .filter(people => people.companyName !== undefined)
-      .map((people, index) => people.companyName);
+      .map((people, index) => ({ name: people.companyName, checkinCount: 0 }));
 
     setCompaniesNow(companies);
     setPeopleNow(pplInEvent);
     setPeopleCheckedIn(0);
 
     setPeopleCheckedOut(pplInEvent.length);
+    // console.log(companies)
   }, [selectedEvent]);
 
   //-----------------------------------------------------------------------
@@ -94,7 +95,7 @@ const Select = () => {
             People in the event right now:{' '}
             <span className="pplCheckedIn">{peopleCheckedIn}</span>
           </h4>
-          {/* <h4 className="peopleCounter">
+          <h4 className="peopleCounter">
             {' '}
             People by company in the event right now:
           </h4>
@@ -103,12 +104,12 @@ const Select = () => {
               if (index < 10) {
                 return (
                   <li key={company}>
-                    {company}: <PeopleByCompany />
+                    {company.name}: {company.checkinCount}
                   </li>
                 );
               }
             })}
-          </ul> */}
+          </ul>
 
           <h4 className="peopleCounter">
             People not checked-in:

@@ -6,7 +6,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [peopleCheckedIn, setPeopleCheckedIn] = useState(0);
   const [peopleCheckedOut, setPeopleCheckedOut] = useState(0);
-  const [peopleCheckedInByCompany, setPeopleCheckedInByCompany] = useState(0);
+  // const [peopleCheckedInByCompany, setPeopleCheckedInByCompany] = useState([]);
 
   const [companiesNow, setCompaniesNow] = useState([]);
 
@@ -15,8 +15,8 @@ const AppProvider = ({ children }) => {
     setPeopleCheckedIn,
     peopleCheckedOut,
     setPeopleCheckedOut,
-    peopleCheckedInByCompany,
-    setPeopleCheckedInByCompany,
+    // peopleCheckedInByCompany,
+    // setPeopleCheckedInByCompany,
     companiesNow,
     setCompaniesNow,
   };
