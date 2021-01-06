@@ -4,7 +4,9 @@ import { methodCall } from '../../helpers/methodCall';
 import { AppContext } from '../context/AppContext';
 
 import CheckBtn from './CheckBtn';
-import PeopleByCompany from './PeopleByCompany';
+import Company from './Employees/Company';
+import Name from './Employees/Name';
+import Title from './Employees/Title';
 
 const Select = () => {
   // state to save the events from db.
@@ -15,8 +17,6 @@ const Select = () => {
   const [peoples, setPeoples] = useState([]);
   // state to save peoples in selected event.
   const [peopleNow, setPeopleNow] = useState([]);
-
-  // const [companiesNow, setCompaniesNow] = useState([]);
 
   const {
     peopleCheckedIn,
@@ -29,6 +29,7 @@ const Select = () => {
 
   //-----------------------------------------------------------------------
 
+  // When the page renders, I use the data in the database to save all events and people in the initial state
   useEffect(() => {
     methodCall('communities').then(eventsData => {
       setEvents(eventsData);
@@ -41,6 +42,10 @@ const Select = () => {
 
   //-----------------------------------------------------------------------
 
+  // Every time I choose an event, I filter the specific event from the database that has the same name
+  // as the selected event. That way, I can extract the people assigned to that event as well as the specific
+  // companies of those people. All of this information is used to save the data in their respective states
+  // to render it reactively on the front.
   useEffect(() => {
     const eventNow = events.filter(event => event.name === selectedEvent);
 
@@ -74,18 +79,25 @@ const Select = () => {
   }
 
   return (
-    <div>
+    <div className="selectDiv">
       <select onChange={selectEvent}>
         <option key="default">Select an event</option>
         {events.map(event => (
           <option key={event._id}>{event.name}</option>
         ))}
       </select>
-      <h1>{selectedEvent}</h1>
       {selectedEvent && (
-        <div>
-          <h4> People in the event right now: {peopleCheckedIn}</h4>
-          <h4> People by company in the event right now:</h4>
+        <div className="countPeople">
+          <h1 className="eventName">{selectedEvent}</h1>
+
+          <h4 className="peopleCounter">
+            People in the event right now:{' '}
+            <span className="pplCheckedIn">{peopleCheckedIn}</span>
+          </h4>
+          {/* <h4 className="peopleCounter">
+            {' '}
+            People by company in the event right now:
+          </h4>
           <ul>
             {companiesNow.map((company, index) => {
               if (index < 10) {
@@ -96,22 +108,27 @@ const Select = () => {
                 );
               }
             })}
-          </ul>
+          </ul> */}
 
-          <h4> People not checked-in: {peopleCheckedOut}</h4>
+          <h4 className="peopleCounter">
+            People not checked-in:
+            <span className="pplCheckedOut"> {peopleCheckedOut}</span>
+          </h4>
         </div>
       )}
-      <div>
+      <div className="allPeoples">
         {peopleNow
-          .filter(people => people.companyName !== undefined)
+          .filter(
+            people =>
+              people.companyName !== undefined && people.title !== undefined
+          )
           .map((people, index) => {
-            if (index < 100) {
+            if (index < 50) {
               return (
-                <div key={people._id}>
-                  <p>
-                    {people.companyName &&
-                      `${people.firstName} ${people.lastName} - ${people.companyName} - ${people.title}`}
-                  </p>
+                <div key={people._id} className="people">
+                  <Name people={people} />
+                  <Title people={people} />
+                  <Company people={people} />
                   <CheckBtn
                     people={people}
                     index={index}

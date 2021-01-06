@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@200&display=swap');
+
+body {
+  background-image: url('https://images.unsplash.com/photo-1576428144127-5910570051f8?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=710&q=80');
+  background-size: contain;
+  box-sizing: border-box;
+  color: rgb(40, 40, 40);
+  font-family: 'Prompt', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Source Serif Pro', serif;
+  margin: 0;
+}
+
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+input,
+button {
+  outline: none;
+}
+
+input:focus,
+button:focus,
+input:active,
+button:active {
+  border: none;
+  outline: none;
+}
+
+/*************************************************************************/
+
+.mainSec {
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  min-height: 100vh;
+  width: 85%;
+}
+
+.mainDiv {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 5rem;
+  width: 100%;
+}
+
+.mainTitle {
+  font-size: 4rem;
+  margin-bottom: 3rem;
+  padding: 0 7rem;
+}
+
+.selectDiv select {
+  background-color: rgb(70, 70, 70);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 900;
+  height: 50px;
+  margin-bottom: 3rem;
+  text-align-last: center;
+  width: 30%;
+}
+
+.eventName {
+  font-size: 5rem;
+  letter-spacing: 0.3rem;
+  margin-bottom: 2rem;
+  text-decoration: underline;
+}
+
+.selectDiv {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.countPeople {
+  border-bottom: 4px solid rgb(70, 70, 70);
+  margin-bottom: 4rem;
+  padding: 0 9rem;
+  text-align: center;
+  width: 35%;
+}
+
+.peopleCounter {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.pplCheckedIn,
+.pplCheckedOut {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.pplCheckedIn {
+  color: rgb(76, 183, 49);
+}
+
+.pplCheckedOut {
+  color: rgb(143, 4, 4);
+}
+
+.btnDiv {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.btnCheckP {
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}
+
+.checkInBtn,
+.checkOutBtn {
+  align-self: center;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 900;
+  height: 40px;
+  margin-top: 1rem;
+  transition: all 0.3s;
+  width: 90%;
+}
+
+.checkInBtn:disabled {
+  background-color: gainsboro;
+}
+
+.checkInBtn {
+  background-color: rgb(76, 183, 49);
+}
+
+.checkInBtn:hover {
+  background-color: rgb(133, 230, 109);
+  cursor: pointer;
+}
+
+.checkOutBtn {
+  background-color: rgb(143, 4, 4);
+}
+
+.checkOutBtn:hover {
+  background-color: rgb(196, 62, 62);
+  cursor: pointer;
+}
+
+.checkedIn {
+  color: rgb(76, 183, 49);
+  font-weight: 900;
+}
+
+.checkedOut {
+  color: rgb(143, 4, 4);
+  font-weight: 900;
+}
+
+.allPeoples {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 1rem;
+  width: 100%;
+}
+
+.people {
+  align-items: flex-start;
+  border-radius: 20px;
+  box-shadow: 15px 10px 15px -9px rgba(40, 40, 40, 0.65);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 95%;
+}
+
+.name {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.guestName {
+  font-size: 1.8rem;
+  letter-spacing: 0.1rem;
+  text-decoration: underline;
+}
+
+@media (max-width: 40rem) {
+  .body {
+    background-image: none;
+  }
+  .mainSec {
+    width: 100%;
+  }
+
+  .mainTitle {
+    font-size: 2.5rem;
+  }
+
+  .selectDiv select {
+    width: 80%;
+  }
+
+  .selectDiv {
+    width: 95%;
+  }
+
+  .countPeople {
+    width: 100%;
+    padding: 0;
+  }
+
+  .pplCheckedIn,
+  .pplCheckedOut {
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+
+  .eventName {
+    font-size: 3rem;
+  }
+
+  .checkInBtn,
+  .checkOutBtn {
+    width: 80%;
+  }
+
+  .allPeoples {
+    grid-template-columns: 1fr;
+  }
+}

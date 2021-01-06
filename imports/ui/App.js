@@ -7,8 +7,10 @@ import './App.css';
 export const App = () => (
   <AppProvider>
     <section className="mainSec">
-      <h1 className="mainTitle">{TEXTS.HOME_TITLE}</h1>
-      <Select />
+      <div className="mainDiv">
+        <h1 className="mainTitle">{TEXTS.HOME_TITLE}</h1>
+        <Select />
+      </div>
     </section>
   </AppProvider>
 );
